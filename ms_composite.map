@@ -1,0 +1,72 @@
+MAP
+	NAME 'MS_COMPOSITE_EXAMPLES'
+	SIZE 800 650
+	STATUS ON
+	EXTENT -13568294 5666513 -13526381 5694455			# Mount Hood
+	FONTSET 	"fontset.list"
+	SYMBOLSET	"symbol.sym"
+	CONFIG 		"MS_ERRORFILE" "ms_error_log.txt"
+	DEBUG 5
+	UNITS METERS
+	WEB
+		METADATA
+			"wms_title"		"MapServer COMPOSITE Examples"
+		END
+	END
+	PROJECTION
+		'init=epsg:3857'
+	END
+	OUTPUTFORMAT
+		NAME "png"
+		DRIVER AGG/PNG8
+		MIMETYPE "image/png;bits=8"
+		EXTENSION "png"
+		TRANSPARENT ON
+		IMAGEMODE RGBA
+		FORMATOPTION "TRANSPARENT=TRUE"
+		FORMATOPTION "QUANTIZE_FORCE=on"
+		FORMATOPTION "QUANTIZE_COLORS=256"
+		FORMATOPTION "INTERLACE=OFF"
+	END
+	LEGEND
+		LABEL
+			TYPE TRUETYPE
+			FONT vera_sans
+			SIZE 7
+			COLOR 0 0 0
+		END		
+	END
+	
+	LAYER
+		NAME 'Bare_Earth_Hillshade'
+		TYPE RASTER
+		CONNECTION "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEarthHS/ImageServer/WMSServer?"
+		CONNECTIONTYPE WMS
+		METADATA
+			"wms_srs"             "EPSG:4326"
+			"wms_name"            "0"
+			"wms_server_version"  "1.1.1"
+			"wms_format"          "image/png"
+		END
+		STATUS ON
+	END
+	
+	LAYER
+		NAME 'NAIP_2016'
+		TYPE RASTER
+		CONNECTION "https://gis.apfo.usda.gov/arcgis/services/NAIP/Oregon_2016_1m/ImageServer/WMSServer?"
+		CONNECTIONTYPE WMS
+		METADATA
+			"wms_srs"             "EPSG:4326"
+			"wms_name"            "0"
+			"wms_server_version"  "1.1.1"
+			"wms_format"          "image/png"
+		END
+		STATUS ON
+		COMPOSITE
+			COMPOP "color-burn"
+		END
+	END
+	
+
+END
